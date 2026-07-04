@@ -269,6 +269,42 @@ import base64
 st.title("🎓 Control de Inscripciones")
 tab_alumno, tab_admin = st.tabs(["👤 Portal Alumno", "⚙️ Administración"])
 
+
+
+
+
+
+
+#  CÓDIGO PARA OCULTAR TODO:
+ocultar_elementos_css = """
+    <style>
+    /* Elimina la barra superior gris (Fork, GitHub, tres puntos) */
+    header {visibility: hidden;}
+    
+    /* Elimina el menú de opciones flotante */
+    #MainMenu {visibility: hidden;}
+    
+    /* Elimina el botón rojo flotante de despliegue inferior */
+    .stAppDeployButton {display: none !important;}
+    
+    /* Elimina la barra de estado de carga */
+    div[data-testid="stStatusWidget"] {visibility: hidden;}
+    
+    /* Limpia márgenes extra del contenedor principal */
+    .block-container {padding-top: 2rem;}
+    </style>
+"""
+st.markdown(ocultar_elementos_css, unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
+
 with tab_alumno:
     if 'logueado' not in st.session_state: 
         st.session_state.logueado = False
