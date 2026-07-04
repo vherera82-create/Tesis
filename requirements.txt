@@ -2,12 +2,3 @@ streamlit
 fpdf
 qrcode
 pandas
-base64
-smtplib
-random
-secrets
-string
-email.mime.text
-email.mime.multipart
-email.mime.base
-email
