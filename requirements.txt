@@ -1,3 +1,5 @@
 streamlit
 fpdf
 qrcode
+sqlite3
+io
