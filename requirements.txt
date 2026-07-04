@@ -9,6 +9,5 @@ secrets
 string
 email.mime.text
 email.mime.multipart
-os
 email.mime.base
 email
