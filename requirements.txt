@@ -3,3 +3,5 @@ fpdf
 qrcode
 sqlite3
 io
+pandas
+datetime
