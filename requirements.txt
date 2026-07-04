@@ -1,10 +1,8 @@
 streamlit
 fpdf
 qrcode
-sqlite3
 io
 pandas
-datetime
 base64
 smtplib
 random
