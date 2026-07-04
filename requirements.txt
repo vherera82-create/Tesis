@@ -1,7 +1,6 @@
 streamlit
 fpdf
 qrcode
-io
 pandas
 base64
 smtplib
