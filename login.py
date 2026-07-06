@@ -15,7 +15,7 @@ from email import encoders
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 CORREO_EMISOR = "vherera82@gmail.com"          # <-- Tu Gmail de pruebas
-CORREO_PASSWORD = "tfiq xmox qtst ewuf"       # <-- Tu contraseña de aplicación de 16 letras
+CORREO_PASSWORD = "aqip vydt bdnv tdcr"       # <-- Tu contraseña de aplicación de 16 letras
 
 
 
