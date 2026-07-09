@@ -91,31 +91,54 @@ def enviar_correo(correo_destino, asunto, cuerpo_mensaje):
 # =====================================================================
 # INTERFAZ PRINCIPAL DE LOGIN Y REGISTRO (Unificada)
 # =====================================================================
+# =====================================================================
+# INTERFAZ PRINCIPAL DE LOGIN Y REGISTRO (Unificada y Multi-Rol)
+# =====================================================================
 def mostrar_login(ejecutar_query):
     # Usamos pestañas de Streamlit para separar de forma limpia Iniciar Sesión de Registrarse
     tab_login, tab_registro = st.tabs(["🔑 Iniciar Sesión", "📝 Registrar Nuevo Usuario"])
     
     # -----------------------------------------------------------------
-    # PESTAÑA 1: INICIAR SESIÓN (Validación con Cédula y Contraseña)
+    # PESTAÑA 1: INICIAR SESIÓN (Validación Multi-tabla: Admin y Estudiante)
     # -----------------------------------------------------------------
     with tab_login:
-        ced_log = st.text_input("Cédula Estudiantil:", key="login_ced")
+        ced_log = st.text_input("Cédula de Identidad:", key="login_ced")
         pass_log = st.text_input("Contraseña:", type="password", key="login_pass")
         
         if st.button("Ingresar", use_container_width=True, key="btn_ingresar"):
             if not ced_log or not pass_log:
                 st.warning("Por favor, rellene todos los campos.")
             else:
-                # Buscamos que coincidan Cédula y Contraseña de manera estricta
-                user = ejecutar_query("SELECT * FROM estudiantes WHERE cedula = ? AND contrasena = ?", (ced_log, pass_log), fetch=True)
-                if user:
+                # 1. PASO A: Intentamos buscar primero en la tabla de Administradores
+                admin = ejecutar_query(
+                    "SELECT cedula, nombre, apellido, correo, contrasena FROM administradores WHERE cedula = ? AND contrasena = ?", 
+                    (ced_log, pass_log), 
+                    fetch=True
+                )
+                
+                if admin:
                     st.session_state.logueado = True
-                    st.session_state.user = user[0]
-                    st.success("¡Ingreso exitoso!")
+                    st.session_state.rol = "Administrador"
+                    # Mapeamos los datos simulando la estructura para que no rompa el código existente
+                    st.session_state.user = admin[0] 
+                    st.success("¡Bienvenido al Panel Administrador!")
                     st.rerun()
-                else: 
-                    st.error("Cédula o contraseña incorrecta, o el usuario aún no se ha registrado.")
-
+                else:
+                    # 2. PASO B: Si no es admin, buscamos de manera estricta en Estudiantes
+                    user = ejecutar_query(
+                        "SELECT * FROM estudiantes WHERE cedula = ? AND contrasena = ?", 
+                        (ced_log, pass_log), 
+                        fetch=True
+                    )
+                    
+                    if user:
+                        st.session_state.logueado = True
+                        st.session_state.rol = "Estudiante"
+                        st.session_state.user = user[0]
+                        st.success("¡Ingreso exitoso al Portal Estudiantil!")
+                        st.rerun()
+                    else: 
+                        st.error("Cédula o contraseña incorrecta, o el usuario aún no se ha registrado.")
 
         st.markdown("<div style='text-align: center; margin-top: -10px;'>", unsafe_allow_html=True)
         if st.button("¿Olvidaste tu contraseña?", use_container_width=True):
@@ -123,7 +146,7 @@ def mostrar_login(ejecutar_query):
         st.markdown("</div>", unsafe_allow_html=True)
 
     # -----------------------------------------------------------------
-    # PESTAÑA 2: PROCESO DE REGISTRO CON PIN DE SEGURIDAD
+    # PESTAÑA 2: PROCESO DE REGISTRO CON PIN DE SEGURIDAD (Se mantiene igual)
     # -----------------------------------------------------------------
     with tab_registro:
         # Inicializamos los estados de la sesión intermedio si no existen
