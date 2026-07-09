@@ -157,7 +157,7 @@ def generar_pdf_horario(nombre_completo, cedula, carrera, materias_inscritas):
     
     pdf.set_fill_color(31, 39, 245)
     pdf.rect(0, 0, 210, 5, 'F') 
-    pdf.image(img_buffer, x=170, y=10, w=30, h=30)
+    pdf.image(img_buffer, x=170, y=10, w=30, h=30, type="PNG")
     
     pdf.set_font("Helvetica", 'B', 14)
     pdf.set_xy(10, 15)
