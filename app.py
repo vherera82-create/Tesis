@@ -546,7 +546,7 @@ else:
                                     VALUES (?, 1, CURRENT_TIMESTAMP)
                                 """, (ced,))
 
-                                correo_alumno = st.session_state.user[5] 
+                                correo_alumno = st.session_state.user[4] 
                                 nombre_alumno = f"{nom} {ape}"
                                 st.info("Generando constancia y enviando al correo...")
                                 pdf_bytes = generar_pdf_horario(f"{nom} {ape}", ced, carr, inscritas)
